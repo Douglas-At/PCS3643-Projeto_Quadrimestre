@@ -1,0 +1,69 @@
+<section class="min-h-[70vh] grid place-items-center">
+  <div
+    class="w-full max-w-4xl bg-slate-800/70 border border-white/10 rounded-2xl p-6 shadow-lg text-white"
+  >
+    <h1 class="text-2xl font-bold mb-4">
+      Bem-vindo, {{ usuario?.nome || 'Professor' }}
+    </h1>
+
+    <!-- Dropdown de escolas -->
+    <div class="mb-6">
+      <label for="escola" class="block text-sm text-zinc-300 mb-1">
+        Selecione a escola:
+      </label>
+      <select
+        id="escola"
+        class="w-full rounded-xl bg-slate-900 border border-white/10 px-3 py-2 text-white
+               outline-none focus:ring-2 focus:ring-blue-500"
+        (change)="selecionarEscola($event)"
+      >
+        <option value="" disabled selected>-- Escolha uma escola --</option>
+        <option *ngFor="let escola of escolas()" [value]="escola.id">
+          {{ escola.nome }} — {{ escola.disciplina }}
+        </option>
+      </select>
+    </div>
+
+    <!-- Tabela de alunos -->
+    <div *ngIf="alunos().length > 0">
+      <h2 class="text-xl font-semibold mb-3">Alunos desta escola:</h2>
+
+      <div class="overflow-x-auto rounded-lg border border-white/10">
+        <table class="min-w-full text-left border-collapse">
+          <thead class="bg-slate-900/80">
+            <tr class="text-sm text-zinc-300 border-b border-white/10">
+              <th class="px-4 py-2">#</th>
+              <th class="px-4 py-2">Nome</th>
+              <th class="px-4 py-2">Data de Nascimento</th>
+              <th class="px-4 py-2 text-center">Registrar Suspeita</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              *ngFor="let aluno of alunos(); index as i"
+              class="border-b border-white/5 hover:bg-slate-900/50"
+            >
+              <td class="px-4 py-2 text-zinc-400">{{ i + 1 }}</td>
+              <td class="px-4 py-2">{{ aluno.nome }}</td>
+              <td class="px-4 py-2">{{ aluno.data_nascimento || '—' }}</td>
+              <td class="px-4 py-2 text-center">
+                <input
+                  type="checkbox"
+                  class="w-5 h-5 accent-blue-500"
+                  (change)="registrarSuspeita(aluno.id, $event)"
+                />
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div
+      *ngIf="escolaSelecionada() && alunos().length === 0"
+      class="text-zinc-400 text-sm mt-4"
+    >
+      Nenhum aluno cadastrado nesta escola.
+    </div>
+  </div>
+</section>

@@ -21,6 +21,12 @@ export const routes: Routes = [
       import('./features/m-chat/m-chat.page').then((m) => m.MChatPage),
     title: 'M-Chat',
   },
+  {
+    path: 'dashboard',
+    loadComponent: () =>
+      import('./features/dashboard/dashboard.page').then((m) => m.DashboardPage),
+    title: 'Dashboard',
+  },
 
   // 🔐 Áreas restritas
   {
@@ -43,10 +49,18 @@ export const routes: Routes = [
     path: 'recursos',
     canMatch: [authGuard],
     loadComponent: () =>
-      import('./features/recursos/recursos.page').then(
-        (m) => m.RecursosPage
-      ),
+      import('./features/recursos/recursos.page').then((m) => m.RecursosPage),
     title: 'Recursos',
+  },
+
+  {
+    path: 'dashboard-professor',
+    canMatch: [authGuard],
+    loadComponent: () =>
+      import('./features/tela-professor/tela-professor.page').then(
+        (m) => m.DashboardProfessorPage
+      ),
+    title: 'Painel do Professor',
   },
 
   // 🌐 Qualquer rota inválida → volta pra Home

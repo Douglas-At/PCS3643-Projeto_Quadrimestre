@@ -1,69 +1,248 @@
-<section class="min-h-[70vh] grid place-items-center">
-  <div
-    class="w-full max-w-4xl bg-slate-800/70 border border-white/10 rounded-2xl p-6 shadow-lg text-white"
-  >
-    <h1 class="text-2xl font-bold mb-4">
-      Bem-vindo, {{ usuario?.nome || 'Professor' }}
+<!-- Skip link -->
+
+<a class="sr-only focus:not-sr-only focus-ring bg-white text-slate-900 px-3 py-2 rounded-md m-2 inline-block" href="#conteudo">
+  Pular para o conteúdo
+</a>
+
+<div class="min-h-dvh bg-slate-50 text-slate-900">
+  <!-- Hero -->
+  <section class="relative isolate">
+    <img
+      class="absolute inset-0 -z-10 h-full w-full object-cover"
+      src="https://images.unsplash.com/photo-1554755229-ca4470e07232?q=80&w=1600&auto=format&fit=crop"
+      alt="Criança brincando com blocos coloridos"
+    />
+    <div class="absolute inset-0 -z-10 bg-gradient-to-b from-white/40 via-white/80 to-slate-50"></div>
+
+```
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-14 pb-20">
+  <div class="max-w-2xl">
+    <h1 class="font-serif text-4xl sm:text-5xl lg:text-6xl leading-tight">
+      Informação e acolhimento sobre o TEA
     </h1>
-
-    <!-- Dropdown de escolas -->
-    <div class="mb-6">
-      <label for="escola" class="block text-sm text-zinc-300 mb-1">
-        Selecione a escola:
-      </label>
-      <select
-        id="escola"
-        class="w-full rounded-xl bg-slate-900 border border-white/10 px-3 py-2 text-white
-               outline-none focus:ring-2 focus:ring-blue-500"
-        (change)="selecionarEscola($event)"
-      >
-        <option value="" disabled selected>-- Escolha uma escola --</option>
-        <option *ngFor="let escola of escolas()" [value]="escola.id">
-          {{ escola.nome }} — {{ escola.disciplina }}
-        </option>
-      </select>
+    <p class="mt-4 text-lg text-slate-600">
+      Conteúdo claro para entender o transtorno do espectro autista, reconhecer sinais, combater mitos e apoiar pessoas autistas e suas famílias.
+    </p>
+    <div class="mt-8 flex flex-col sm:flex-row gap-3">
+      <a href="#sobre" class="bg-blue-600 text-white px-6 py-3 rounded-2xl hover:bg-blue-700 shadow focus-ring inline-flex items-center justify-center">
+        Começar
+      </a>
+      <a href="#recursos" class="px-6 py-3 rounded-2xl border border-slate-300 hover:bg-white focus-ring inline-flex items-center justify-center">
+        Ver recursos
+      </a>
     </div>
+  </div>
+</div>
+```
 
-    <!-- Tabela de alunos -->
-    <div *ngIf="alunos().length > 0">
-      <h2 class="text-xl font-semibold mb-3">Alunos desta escola:</h2>
+  </section>
 
-      <div class="overflow-x-auto rounded-lg border border-white/10">
-        <table class="min-w-full text-left border-collapse">
-          <thead class="bg-slate-900/80">
-            <tr class="text-sm text-zinc-300 border-b border-white/10">
-              <th class="px-4 py-2">#</th>
-              <th class="px-4 py-2">Nome</th>
-              <th class="px-4 py-2">Data de Nascimento</th>
-              <th class="px-4 py-2 text-center">Registrar Suspeita</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr
-              *ngFor="let aluno of alunos(); index as i"
-              class="border-b border-white/5 hover:bg-slate-900/50"
-            >
-              <td class="px-4 py-2 text-zinc-400">{{ i + 1 }}</td>
-              <td class="px-4 py-2">{{ aluno.nome }}</td>
-              <td class="px-4 py-2">{{ aluno.data_nascimento || '—' }}</td>
-              <td class="px-4 py-2 text-center">
-                <input
-                  type="checkbox"
-                  class="w-5 h-5 accent-blue-500"
-                  (change)="registrarSuspeita(aluno.id, $event)"
-                />
-              </td>
-            </tr>
-          </tbody>
-        </table>
+  <main id="conteudo">
+    <!-- Sobre o TEA -->
+    <section id="sobre" class="py-16">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid gap-8 lg:grid-cols-12 items-center">
+        <div class="lg:col-span-6 order-2 lg:order-1">
+          <h2 class="font-serif text-3xl sm:text-4xl">O que é o TEA?</h2>
+          <div class="prose prose-slate max-w-none mt-4">
+            <p>
+              O Transtorno do Espectro Autista é uma condição do neurodesenvolvimento caracterizada por diferenças na comunicação e na interação social, além de padrões de interesses e comportamentos. O espectro é amplo: cada pessoa autista é única.
+            </p>
+            <p>
+              <strong>Espaço para texto:</strong> insira aqui informações institucionais do seu projeto, referências, profissionais e links úteis.
+            </p>
+          </div>
+        </div>
+        <figure class="lg:col-span-6 order-1 lg:order-2">
+          <img
+            class="rounded-2xl shadow w-full h-80 object-cover"
+            src="https://picsum.photos/id/1027/1200/800"
+            alt="Mãos segurando peças de quebra-cabeça coloridas"
+            loading="lazy"
+          />
+          <figcaption class="sr-only">Peças de quebra-cabeça coloridas</figcaption>
+        </figure>
       </div>
+    </section>
+
+```
+<!-- Sinais e características -->
+<section id="sinais" class="py-16 bg-white">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <h2 class="font-serif text-3xl sm:text-4xl">Sinais e características</h2>
+    <p class="mt-3 text-slate-600">
+      Os sinais variam entre pessoas. Estes são exemplos gerais — personalize conforme seu conteúdo.
+    </p>
+
+    <div class="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      <article class="p-6 rounded-2xl bg-slate-50">
+        <h3 class="font-semibold">Comunicação</h3>
+        <p class="text-sm text-slate-600 mt-1">
+          Diferenças na linguagem verbal ou não verbal; preferência por comunicação direta.
+        </p>
+      </article>
+      <article class="p-6 rounded-2xl bg-slate-50">
+        <h3 class="font-semibold">Interesses focados</h3>
+        <p class="text-sm text-slate-600 mt-1">
+          Áreas de interesse intenso e aprofundado, que podem ser uma força.
+        </p>
+      </article>
+      <article class="p-6 rounded-2xl bg-slate-50">
+        <h3 class="font-semibold">Processamento sensorial</h3>
+        <p class="text-sm text-slate-600 mt-1">
+          Sensibilidades a som, luz, texturas; estratégias de autorregulação.
+        </p>
+      </article>
     </div>
 
-    <div
-      *ngIf="escolaSelecionada() && alunos().length === 0"
-      class="text-zinc-400 text-sm mt-4"
-    >
-      Nenhum aluno cadastrado nesta escola.
+    <figure class="mt-10">
+      <img
+        class="rounded-2xl shadow w-full h-72 object-cover"
+        src="https://picsum.photos/id/1011/1400/700"
+        alt="Materiais coloridos de arte e aprendizagem"
+        loading="lazy"
+      />
+    </figure>
+  </div>
+</section>
+
+<!-- Mitos e Fatos -->
+<section class="py-16">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <h2 class="font-serif text-3xl sm:text-4xl">Mitos e fatos</h2>
+    <div class="mt-8 grid gap-6 lg:grid-cols-2">
+      <div class="p-6 rounded-2xl bg-white border border-slate-200">
+        <h3 class="font-semibold text-rose-700">Mito</h3>
+        <p class="text-slate-600 mt-1">“Todas as pessoas autistas têm as mesmas dificuldades.”</p>
+        <h4 class="mt-4 font-semibold text-emerald-700">Fato</h4>
+        <p class="text-slate-600">O espectro é diverso; necessidades e habilidades variam amplamente.</p>
+      </div>
+      <div class="p-6 rounded-2xl bg-white border border-slate-200">
+        <h3 class="font-semibold text-rose-700">Mito</h3>
+        <p class="text-slate-600 mt-1">“Interesses restritos não são úteis.”</p>
+        <h4 class="mt-4 font-semibold text-emerald-700">Fato</h4>
+        <p class="text-slate-600">Podem ser fonte de motivação, aprendizado e carreira.</p>
+      </div>
     </div>
   </div>
 </section>
+
+<!-- Como apoiar -->
+<section id="apoio" class="py-16 bg-white" aria-labelledby="titulo-apoio">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <h2 id="titulo-apoio" class="font-serif text-3xl sm:text-4xl">Como apoiar</h2>
+    <div class="mt-8 grid gap-8 lg:grid-cols-2 items-center">
+      <ul class="space-y-4">
+        <li class="flex gap-4">
+          <span class="flex h-8 w-8 items-center justify-center rounded-full bg-blue-600/10 text-blue-600 font-semibold">1</span>
+          <div>
+            <h3 class="font-semibold">Escute e valide</h3>
+            <p class="text-sm text-slate-600">Respeite a comunicação preferida e evite pressupostos.</p>
+          </div>
+        </li>
+        <li class="flex gap-4">
+          <span class="flex h-8 w-8 items-center justify-center rounded-full bg-blue-600/10 text-blue-600 font-semibold">2</span>
+          <div>
+            <h3 class="font-semibold">Adapte o ambiente</h3>
+            <p class="text-sm text-slate-600">Ajustes sensoriais, previsibilidade e clareza ajudam muito.</p>
+          </div>
+        </li>
+        <li class="flex gap-4">
+          <span class="flex h-8 w-8 items-center justify-center rounded-full bg-blue-600/10 text-blue-600 font-semibold">3</span>
+          <div>
+            <h3 class="font-semibold">Fortaleça interesses</h3>
+            <p class="text-sm text-slate-600">Transforme interesses em oportunidades de aprendizagem.</p>
+          </div>
+        </li>
+      </ul>
+      <figure>
+        <img
+          class="rounded-2xl shadow w-full h-80 object-cover"
+          src="https://picsum.photos/id/1005/1200/800"
+          alt="Pessoa adulta oferecendo apoio a uma criança em atividade"
+          loading="lazy"
+        />
+        <figcaption class="sr-only">Apoio em atividade educacional</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- Recursos -->
+<section id="recursos" class="py-16">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <h2 class="font-serif text-3xl sm:text-4xl">Recursos</h2>
+    <p class="mt-3 text-slate-600">Substitua pelos links e instituições do seu contexto.</p>
+    <div class="mt-8 grid gap-6 lg:grid-cols-3">
+      <article class="rounded-2xl bg-white border border-slate-200 p-6">
+        <h3 class="font-semibold">Guias práticos</h3>
+        <p class="text-sm text-slate-600 mt-1">Rotinas visuais, comunicação alternativa, adaptações sensoriais.</p>
+        <a class="mt-3 inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 focus-ring" href="#" aria-label="Abrir guia prático">Abrir guia →</a>
+      </article>
+      <article class="rounded-2xl bg-white border border-slate-200 p-6">
+        <h3 class="font-semibold">Direitos e serviços</h3>
+        <p class="text-sm text-slate-600 mt-1">Informações sobre laudos, benefícios e atendimento educacional.</p>
+        <a class="mt-3 inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 focus-ring" href="#" aria-label="Ver direitos e serviços">Ver direitos →</a>
+      </article>
+      <article class="rounded-2xl bg-white border border-slate-200 p-6">
+        <h3 class="font-semibold">Comunidades</h3>
+        <p class="text-sm text-slate-600 mt-1">Redes de famílias, pessoas autistas e profissionais.</p>
+        <a class="mt-3 inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 focus-ring" href="#" aria-label="Acessar comunidades">Acessar →</a>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq" class="py-16 bg-white">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <h2 class="font-serif text-3xl sm:text-4xl">FAQ</h2>
+    <div class="mt-6 divide-y divide-slate-200">
+      <details class="py-4 group">
+        <summary class="cursor-pointer font-medium flex items-center justify-between">
+          O que significa “espectro”?
+          <span aria-hidden="true" class="ml-4 text-slate-400 group-open:rotate-180 transition">⌄</span>
+        </summary>
+        <div class="mt-2 text-slate-600">
+          Indica uma ampla variação de perfis, com diferentes combinações de habilidades e necessidades.
+        </div>
+      </details>
+      <details class="py-4 group">
+        <summary class="cursor-pointer font-medium flex items-center justify-between">
+          TEA tem cura?
+          <span aria-hidden="true" class="ml-4 text-slate-400 group-open:rotate-180 transition">⌄</span>
+        </summary>
+        <div class="mt-2 text-slate-600">
+          TEA não é doença. O foco está em suporte, acessibilidade e qualidade de vida.
+        </div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- Newsletter / CTA -->
+<section id="newsletter" class="py-16">
+  <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+    <h2 class="font-serif text-3xl sm:text-4xl">Receba novidades e materiais</h2>
+    <p class="mt-2 text-slate-600">Cadastre seu e-mail para receber conteúdos selecionados.</p>
+    <form class="mt-6 grid sm:grid-cols-[1fr_auto] gap-3 max-w-xl mx-auto" aria-label="Assinar newsletter">
+      <label class="sr-only" for="email">E-mail</label>
+      <input id="email" name="email" type="email" required placeholder="seu@email.com"
+             class="focus-ring block w-full rounded-xl border-slate-300" />
+      <button type="submit" class="bg-blue-600 text-white px-6 py-3 rounded-xl hover:bg-blue-700 shadow">
+        Assinar
+      </button>
+    </form>
+  </div>
+</section>
+```
+
+  </main>
+
+  <!-- Footer -->
+
+  <footer class="border-t border-slate-200 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 text-sm text-slate-600">
+      <p>© TEA – Informações de caráter educativo. Consulte profissionais qualificados para orientações individuais.</p>
+    </div>
+  </footer>
+</div>

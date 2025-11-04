@@ -43,7 +43,7 @@ export class LoginPage {
     this.auth.login(email, password).subscribe({
       next: () => {
         this.loading.set(false);
-        this.router.navigate(['/home']); // redireciona após login
+        this.router.navigate(['/tela-professor']); // redireciona após login
       },
       error: (err) => {
         this.loading.set(false);

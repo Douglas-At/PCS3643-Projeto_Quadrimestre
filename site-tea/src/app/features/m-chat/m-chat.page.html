@@ -42,8 +42,6 @@
       <p class="text-lg text-zinc-200 mb-4">
         {{ currentQuestion.text }}
       </p>
-
-      <!-- ✅ Resposta atual -->
       <p *ngIf="answers()[currentQuestion.id] !== undefined" class="mb-8 text-sm">
         Resposta atual:
         <span
