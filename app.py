@@ -16,16 +16,16 @@ def create_app():
     app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'chave_dev')
 
     from routes.alunos import alunos_bp
-    app.register_blueprint(alunos_bp, url_prefix='/alunos')
+    app.register_blueprint(alunos_bp, url_prefix='/api/alunos')
 
     from routes.professores import professores_bp
-    app.register_blueprint(professores_bp, url_prefix='/professores')
+    app.register_blueprint(professores_bp, url_prefix='/api/professores')
 
     from routes.registros import registros_bp
-    app.register_blueprint(registros_bp, url_prefix='/registros')
+    app.register_blueprint(registros_bp, url_prefix='/api/registros')
 
     from routes.usuarios import usuarios_bp
-    app.register_blueprint(usuarios_bp, url_prefix='/usuarios')
+    app.register_blueprint(usuarios_bp, url_prefix='/api/usuarios')
 
     @app.route('/')
     def index():

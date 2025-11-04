@@ -1,57 +1,54 @@
-
-import { Component, signal, inject } from '@angular/core';
-import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
-import { NgIf } from '@angular/common';
+import { Component, signal } from '@angular/core';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
+  selector: 'app-login',
   standalone: true,
-  imports: [ReactiveFormsModule, NgIf],
-  templateUrl: 'login.page.html'
+  imports: [ReactiveFormsModule, CommonModule],
+  templateUrl: './login.page.html',
 })
 export class LoginPage {
-  private readonly fb = inject(FormBuilder);
-  private readonly auth = inject(AuthService);
-  private readonly router = inject(Router);
-
+  form: FormGroup;
   showPwd = signal(false);
   loading = signal(false);
   error = signal<string | null>(null);
-  submitted = signal(false); // ✅ substitui o this.form.submitted
 
-  form = this.fb.group({
-    email: ['', [Validators.required, Validators.email]],
-    password: ['', [Validators.required, Validators.minLength(6)]],
-  });
-
-  invalid(field: 'email' | 'password') {
-    const c = this.form.get(field);
-    return !!(c?.invalid && (c?.touched || this.submitted()));
+  constructor(
+    private fb: FormBuilder,
+    private auth: AuthService,
+    private router: Router
+  ) {
+    // inicializa o formulário reativo
+    this.form = this.fb.group({
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required]],
+    });
   }
 
-  async onSubmit() {
-    this.submitted.set(true); // ✅ define que o form foi submetido
-    this.form.markAllAsTouched();
+  invalid(control: string): boolean {
+    const field = this.form.get(control);
+    return !!field && field.invalid && (field.dirty || field.touched);
+  }
+
+  onSubmit() {
     if (this.form.invalid) return;
 
+    const { email, password } = this.form.value;
     this.loading.set(true);
     this.error.set(null);
 
-    try {
-      const { email, password } = this.form.value;
-      const token = await this.auth.login(email!, password!).toPromise();
-
-      if (token) {
-        localStorage.setItem('token', token);
-        this.router.navigateByUrl('/');
-      } else {
-        this.error.set('E-mail ou senha incorretos.');
-      }
-    } catch (e: any) {
-      this.error.set(e?.message ?? 'Erro ao entrar. Tente novamente.');
-    } finally {
-      this.loading.set(false);
-    }
+    this.auth.login(email, password).subscribe({
+      next: () => {
+        this.loading.set(false);
+        this.router.navigate(['/home']); // redireciona após login
+      },
+      error: (err) => {
+        this.loading.set(false);
+        this.error.set(err.error?.erro || 'Erro ao realizar login');
+      },
+    });
   }
 }
