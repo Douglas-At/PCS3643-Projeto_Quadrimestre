@@ -1,77 +1,98 @@
 <section *ngIf="!started(); else perguntas" class="min-h-screen grid place-items-center px-4 py-10">
-    <div class="w-full max-w-2xl bg-slate-900/70 border border-white/10 rounded-2xl p-8 shadow-lg text-white">
-        <h1 class="text-3xl font-bold mb-6">Triagem M-CHAT-R/F</h1>
+  <div class="w-full max-w-2xl bg-slate-900/70 border border-white/10 rounded-2xl p-8 shadow-lg text-white">
+    <h1 class="text-3xl font-bold mb-6">Triagem M-CHAT-R/F</h1>
 
-        <form [formGroup]="form" (ngSubmit)="start()" class="space-y-6" novalidate>
-            <div>
-                <label for="nome" class="block text-sm text-zinc-300 mb-1">Nome da criança</label>
-                <input id="nome" name="nome" formControlName="nome"
-                    class="w-full rounded-xl bg-slate-950/60 border border-white/10 px-3 py-2" />
-            </div>
+    <form [formGroup]="form" (ngSubmit)="start()" class="space-y-6">
+      <div>
+        <label class="block text-sm text-zinc-300 mb-1">Nome da criança</label>
+        <input
+          formControlName="nome"
+          class="w-full rounded-xl bg-slate-950/60 border border-white/10 px-3 py-2"
+        />
+      </div>
 
-            <div>
-                <label for="idadeMeses" class="block text-sm text-zinc-300 mb-1">Idade (meses)</label>
-                <input id="idadeMeses" name="idadeMeses" type="number" formControlName="idadeMeses"
-                    class="w-full rounded-xl bg-slate-950/60 border border-white/10 px-3 py-2" />
-            </div>
+      <div>
+        <label class="block text-sm text-zinc-300 mb-1">Idade (meses)</label>
+        <input
+          type="number"
+          formControlName="idadeMeses"
+          class="w-full rounded-xl bg-slate-950/60 border border-white/10 px-3 py-2"
+        />
+      </div>
 
-            <button type="submit" class="w-full rounded-xl bg-blue-600 hover:bg-blue-500 text-white px-5 py-2.5">
-                Iniciar Triagem
-            </button>
-        </form>
-    </div>
+      <button
+        type="submit"
+        class="w-full rounded-xl bg-blue-600 hover:bg-blue-500 text-white px-5 py-2.5"
+      >
+        Iniciar Triagem
+      </button>
+    </form>
+  </div>
 </section>
 
 <ng-template #perguntas>
-    <section class="min-h-screen grid place-items-center px-4 py-10">
-        <div class="w-full max-w-2xl bg-slate-900/70 border border-white/10 rounded-2xl p-8 shadow-lg text-white">
-            <!-- Barra de progresso -->
-            <div class="mb-6">
-                <div class="flex items-center justify-between text-xs text-zinc-400 mb-2">
-                    <span>Pergunta {{ currentIndex() + 1 }} de {{ questions.length }}</span>
-                    <span>{{ ((currentIndex()+1) / questions.length) * 100 | number:'1.0-0' }}%</span>
-                </div>
-                <div class="h-2 w-full bg-white/10 rounded-full overflow-hidden">
-                    <div class="h-full bg-blue-500 transition-all duration-300"
-                        [style.width.%]="((currentIndex()+1) / questions.length) * 100"></div>
-                </div>
-            </div>
+  <section class="min-h-screen grid place-items-center px-4 py-10">
+    <div
+      class="w-full max-w-2xl bg-slate-900/70 border border-white/10 rounded-2xl p-8 shadow-lg text-white text-center"
+    >
+      <h2 class="text-2xl font-semibold mb-4">
+        Pergunta {{ currentIndex() + 1 }} de {{ questions.length }}
+      </h2>
 
-            <h2 class="text-2xl font-semibold mb-4 text-center">M-CHAT</h2>
-            <p class="text-lg text-zinc-200 mb-8 text-center">{{ currentQuestion.text }}</p>
+      <p class="text-lg text-zinc-200 mb-4">
+        {{ currentQuestion.text }}
+      </p>
 
-            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                <!-- Voltar -->
-                <button (click)="prev()" [disabled]="currentIndex() === 0"
-                    class="py-2 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-white disabled:opacity-40">
-                    Voltar
-                </button>
+      <!-- ✅ Resposta atual -->
+      <p *ngIf="answers()[currentQuestion.id] !== undefined" class="mb-8 text-sm">
+        Resposta atual:
+        <span
+          [ngClass]="{
+            'text-green-400 font-semibold': answers()[currentQuestion.id] === true,
+            'text-red-400 font-semibold': answers()[currentQuestion.id] === false
+          }"
+        >
+          {{ answers()[currentQuestion.id] ? 'Sim' : 'Não' }}
+        </span>
+      </p>
 
-                <!-- Não (escuro por padrão; com outline quando selecionado) -->
-                <button (click)="answer(false)"
-                    class="py-2 rounded-xl text-white transition-colors bg-red-900/70 hover:bg-red-800 border border-white/10"
-                    [class.ring-2]="answers()[currentQuestion.id] === false"
-                    [class.ring-white/70]="answers()[currentQuestion.id] === false"
-                    [class.ring-offset-2]="answers()[currentQuestion.id] === false"
-                    [class.ring-offset-slate-900]="answers()[currentQuestion.id] === false">
-                    Não
-                </button>
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+        <!-- Voltar -->
+        <button
+          (click)="prev()"
+          [disabled]="currentIndex() === 0"
+          class="py-2 rounded-xl bg-zinc-700 hover:bg-zinc-600 disabled:opacity-40"
+        >
+          Voltar
+        </button>
 
-                <!-- Sim (escuro por padrão; com outline quando selecionado) -->
-                <button (click)="answer(true)"
-                    class="py-2 rounded-xl text-white transition-colors bg-green-900/70 hover:bg-green-800 border border-white/10"
-                    [class.ring-2]="answers()[currentQuestion.id] === true"
-                    [class.ring-white/70]="answers()[currentQuestion.id] === true"
-                    [class.ring-offset-2]="answers()[currentQuestion.id] === true"
-                    [class.ring-offset-slate-900]="answers()[currentQuestion.id] === true">
-                    Sim
-                </button>
-                <!-- Próximo (só habilita após resposta) -->
-                <button (click)="next()" [disabled]="!hasAnsweredCurrent() || currentIndex() === questions.length - 1"
-                    class="py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white disabled:opacity-40">
-                    Próximo
-                </button>
-            </div>
-        </div>
-    </section>
+        <!-- Não -->
+        <button
+          (click)="answer(false)"
+          [class.bg-red-700]="answers()[currentQuestion.id] === false"
+          class="py-2 rounded-xl bg-red-600 hover:bg-red-500 transition-colors"
+        >
+          Não
+        </button>
+
+        <!-- Sim -->
+        <button
+          (click)="answer(true)"
+          [class.bg-green-700]="answers()[currentQuestion.id] === true"
+          class="py-2 rounded-xl bg-green-600 hover:bg-green-500 transition-colors"
+        >
+          Sim
+        </button>
+
+        <!-- Próximo -->
+        <button
+          (click)="next()"
+          [disabled]="!hasAnsweredCurrent() || currentIndex() === questions.length - 1"
+          class="py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white disabled:opacity-40"
+        >
+          Próximo
+        </button>
+      </div>
+    </div>
+  </section>
 </ng-template>
