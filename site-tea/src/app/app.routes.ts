@@ -21,6 +21,12 @@ export const routes: Routes = [
       import('./features/m-chat/m-chat.page').then((m) => m.MChatPage),
     title: 'M-Chat',
   },
+  {
+    path: 'dashboard',
+    loadComponent: () =>
+      import('./features/dashboard/dashboard.page').then((m) => m.DashboardPage),
+    title: 'Dashboard',
+  },
 
   // 🔐 Áreas restritas
   {
