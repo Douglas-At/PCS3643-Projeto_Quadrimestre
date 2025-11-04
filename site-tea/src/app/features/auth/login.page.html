@@ -1,0 +1,70 @@
+<section class="min-h-[70vh] grid place-items-center">
+    <div class="w-full max-w-md bg-slate-800/70 border border-white/10 rounded-2xl p-6 shadow-lg">
+      <h1 class="text-2xl font-bold text-white mb-1">Acesso restrito</h1>
+      <p class="text-sm text-zinc-400 mb-6">Entre com suas credenciais institucionais.</p>
+
+      <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate class="space-y-4">
+        <!-- E-mail -->
+        <div>
+          <label for="email" class="block text-sm text-zinc-300 mb-1">E-mail institucional</label>
+          <input
+            id="email"
+            type="email"
+            formControlName="email"
+            autocomplete="username"
+            required
+            class="w-full rounded-xl bg-slate-900 border border-white/10 px-3 py-2 text-white
+                   outline-none focus:ring-2 focus:ring-blue-500"
+          />
+          <p *ngIf="invalid('email')" class="text-sm text-red-400 mt-1">Informe um e-mail válido.</p>
+        </div>
+
+        <!-- Senha -->
+        <div>
+          <div class="flex items-center justify-between">
+            <label for="password" class="block text-sm text-zinc-300 mb-1">Senha</label>
+            <button type="button"
+              class="text-xs text-zinc-400 hover:text-zinc-200"
+              (click)="showPwd.set(!showPwd())">
+              {{ showPwd() ? 'Ocultar' : 'Mostrar' }}
+            </button>
+          </div>
+
+          <input
+            id="password"
+            [type]="showPwd() ? 'text' : 'password'"
+            formControlName="password"
+            autocomplete="current-password"
+            required
+            minlength="6"
+            class="w-full rounded-xl bg-slate-900 border border-white/10 px-3 py-2 text-white
+                   outline-none focus:ring-2 focus:ring-blue-500"
+          />
+          <p *ngIf="invalid('password')" class="text-sm text-red-400 mt-1">
+            Senha deve ter pelo menos 6 caracteres.
+          </p>
+        </div>
+
+        <!-- Erro -->
+        <div *ngIf="error()" class="rounded-lg bg-red-500/10 border border-red-500/40 text-red-300 text-sm p-2">
+          {{ error() }}
+        </div>
+
+        <!-- Botão -->
+        <button
+          type="submit"
+          class="w-full inline-flex justify-center items-center rounded-xl bg-blue-600 hover:bg-blue-500
+                 text-white font-medium px-4 py-2 transition focus:outline-none focus:ring-2 focus:ring-offset-2
+                 focus:ring-blue-500 focus:ring-offset-slate-800 disabled:opacity-60"
+          [disabled]="form.invalid || loading()"
+          [attr.aria-busy]="loading() ? 'true' : null"
+        >
+          {{ loading() ? 'Entrando...' : 'Entrar' }}
+        </button>
+        <!-- Link de recuperação -->
+        <p class="text-xs text-zinc-400 text-center mt-3">
+          <a class="text-blue-400 hover:text-blue-300" href="#">Esqueceu sua senha?</a>
+        </p>
+      </form>
+    </div>
+  </section>
