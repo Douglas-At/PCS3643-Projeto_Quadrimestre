@@ -54,11 +54,11 @@ export const routes: Routes = [
   },
 
   {
-    path: 'dashboard-professor',
+    path: 'tela-professor',
     canMatch: [authGuard],
     loadComponent: () =>
       import('./features/tela-professor/tela-professor.page').then(
-        (m) => m.DashboardProfessorPage
+        (m) => m.TelaProfessorPage   
       ),
     title: 'Painel do Professor',
   },

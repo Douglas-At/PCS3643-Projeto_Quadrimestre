@@ -3,12 +3,12 @@ import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 
 @Component({
-  selector: 'app-dashboard-professor',
+  selector: 'app-tela-professor',
   standalone: true,
   imports: [CommonModule],
-  templateUrl: './dashboard-professor.page.html',
+  templateUrl: './tela-professor.page.html',
 })
-export class DashboardProfessorPage implements OnInit {
+export class TelaProfessorPage implements OnInit {
   private API_URL = 'http://localhost:5000/api/professores';
 
   escolas = signal<any[]>([]);
