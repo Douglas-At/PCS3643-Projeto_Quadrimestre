@@ -1,0 +1,98 @@
+.page-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  padding: 20px;
+}
+
+/* ... Código existente (continua) ... */
+
+.section {
+  padding: 40px;
+  border-radius: 12px;
+  color: #ffffff;
+}
+
+.roxo {
+  background-color: #4b2e83;
+}
+
+.imagem-descricao-grande {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.imagem-descricao-grande h1 {
+  font-size: 3rem; /* Tamanho grande para a descrição */
+  font-weight: 700;
+  color: #ffffff; /* Garante que o texto seja branco */
+  line-height: 1.2;
+}
+
+.laranja {
+  background-color: #ff8c42;
+  color: #000;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 30px;
+}
+
+.laranja .texto-secao {
+  flex-basis: 60%; /* Ocupa cerca de 60% do espaço disponível */
+  margin-bottom: 0;
+}
+
+.laranja .imagem-secao {
+  flex-basis: 40%; /* Ocupa cerca de 40% do espaço disponível */
+  flex-shrink: 0; /* Previne que ocupe menos de 40% se houver espaço */
+}
+
+.imagem-secao img {
+  width: 100%; /* Garante que a imagem se ajuste à largura do seu contêiner */
+  height: auto;
+  display: block;
+  border-radius: 8px; /* Opcional: borda arredondada na imagem */
+}
+
+@media (max-width: 768px) {
+  .laranja {
+    flex-direction: column; /* Em telas menores, empilha os itens (texto em cima, imagem embaixo) */
+    text-align: center; /* Centraliza o texto */
+  }
+
+  .laranja .texto-secao,
+  .laranja .imagem-secao {
+    flex-basis: auto; /* Permite que ocupem a largura total */
+    width: 100%;
+    margin-bottom: 20px; /* Adiciona espaço entre os elementos empilhados */
+  }
+}
+
+.amarelo {
+  background-color: #ffce45;
+  color: #000;
+}
+
+.cinza {
+  background-color: #2f2f2f;
+}
+
+h1, h2, h3 {
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+.caixas-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.caixa {
+  background: #a88888;
+  color: #000;
+  padding: 20px;
+  border-radius: 10px;
+}

@@ -1,10 +1,11 @@
-import { Component, OnInit, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
+import { Component } from "@angular/core";
+import { CommonModule } from "@angular/common";
 
 @Component({
-  selector: 'app-home',
+  selector: "app-home",
   standalone: true,
-  templateUrl:"home.page.html"
+  imports: [CommonModule],
+  templateUrl: "home.page.html",
+  styleUrls: ["home.page.scss"],
 })
 export class HomePage {}
