@@ -40,3 +40,15 @@ def listar_alunos_do_professor_na_escola(professor_id, escola_id):
         for aluno in alunos
     ])
 
+@professores_bp.route('/usuario/<int:usuario_id>')
+def get_professor_por_usuario(usuario_id):
+    professor = db_session.query(Professor).filter_by(usuario_id=usuario_id).first()
+
+    if not professor:
+        return jsonify({"erro": "Professor não encontrado"}), 404
+
+    return jsonify({
+        "id": professor.id,
+        "escola_id": professor.escola_id,
+        "disciplina": professor.disciplina
+    })

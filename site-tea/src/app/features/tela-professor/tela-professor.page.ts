@@ -8,13 +8,15 @@ import { HttpClient } from '@angular/common/http';
   imports: [CommonModule],
   templateUrl: './tela-professor.page.html',
 })
+
 export class TelaProfessorPage implements OnInit {
-  private API_URL = 'http://localhost:5000/api/professores';
+  private API_URL = 'http://localhost:5000/api';
+  usuario: any;
+  professorId: number | null = null;
 
   escolas = signal<any[]>([]);
   alunos = signal<any[]>([]);
   escolaSelecionada = signal<number | null>(null);
-  usuario: any;
 
   constructor(private http: HttpClient) {}
 
@@ -22,13 +24,24 @@ export class TelaProfessorPage implements OnInit {
     const userStr = localStorage.getItem('usuario');
     if (userStr) {
       this.usuario = JSON.parse(userStr);
-      this.carregarEscolas();
+      this.carregarProfessor();
     }
+  }
+
+  carregarProfessor() {
+    this.http.get<any>(`${this.API_URL}/professores/usuario/${this.usuario.id}`)
+      .subscribe({
+        next: (dados) => {
+          this.professorId = dados.id;
+          this.carregarEscolas();
+        },
+        error: (err) => console.error("Erro ao carregar professor", err)
+      });
   }
 
   carregarEscolas() {
     this.http
-      .get<any[]>(`${this.API_URL}/${this.usuario.id}/escolas`)
+      .get<any[]>(`${this.API_URL}/professores/${this.professorId}/escolas`)
       .subscribe({
         next: (dados) => this.escolas.set(dados),
         error: (err) => console.error('Erro ao carregar escolas', err),
@@ -37,32 +50,33 @@ export class TelaProfessorPage implements OnInit {
 
   selecionarEscola(event: Event) {
     const select = event.target as HTMLSelectElement;
-    const idEscola = Number(select.value);
-    this.escolaSelecionada.set(idEscola);
-    this.carregarAlunos(idEscola);
-  }
+    const escolaId = Number(select.value);
 
-  carregarAlunos(idEscola: number) {
+    this.escolaSelecionada.set(escolaId);
+
     this.http
-      .get<any[]>(`${this.API_URL}/${this.usuario.id}/escolas/${idEscola}/alunos`)
+      .get<any[]>(`${this.API_URL}/escolas/${escolaId}/alunos`)
       .subscribe({
         next: (dados) => this.alunos.set(dados),
-        error: (err) => console.error('Erro ao carregar alunos', err),
+        error: (err) => console.error("Erro ao carregar alunos", err)
       });
   }
 
   registrarSuspeita(alunoId: number, event: Event) {
     const checked = (event.target as HTMLInputElement).checked;
+
     if (checked) {
-      console.log(`Registrar suspeita para aluno ${alunoId}`);
-      // Exemplo de chamada para o backend futuramente:
-      // this.http.post('http://localhost:5000/api/registros', {
-      //   aluno_id: alunoId,
-      //   professor_id: this.usuario.id,
-      //   descricao: 'Suspeita registrada pelo professor.'
-      // }).subscribe(() => alert('Suspeita registrada!'));
-    } else {
-      console.log(`Checkbox desmarcada para aluno ${alunoId}`);
+      const payload = {
+        aluno_id: alunoId,
+        professor_id: this.professorId,
+        descricao: "Suspeita registrada pelo professor"
+      };
+
+      this.http.post(`${this.API_URL}/registros`, payload)
+        .subscribe({
+          next: () => alert("Suspeita registrada!"),
+          error: (err) => console.error("Erro ao registrar suspeita", err)
+        });
     }
   }
 }
