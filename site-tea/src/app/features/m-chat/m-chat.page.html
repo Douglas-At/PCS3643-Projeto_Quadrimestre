@@ -1,104 +1,42 @@
-<section *ngIf="!started(); else perguntas" class="min-h-screen grid place-items-center px-4 py-10">
-  <div class="w-full max-w-2xl bg-slate-900/70 border border-white/10 rounded-2xl p-8 shadow-lg text-white">
-    <h1 class="text-3xl font-bold mb-6">Triagem M-CHAT-R/F</h1>
+<section *ngIf="!started(); else perguntas" class="w-full bg-blue-900 px-4 py-6">
+  <div class="w-full max-w-2xl text-white mx-auto px-4">
+    <h1 class="text-3xl font-bold mb-4">Como avaliar o risco de autismo?</h1>
+    
+    <p class="text-lg text-white mb-3">
+      O primeiro passo para se alcançar o diagnóstico de autismo é avaliar a chance da criança de possuir o transtorno, através do processo de triagem.
+      <br>
+      A triagem pode ser realizada de diversas maneiras, através de questionários, observações e entrevistas com os pais ou cuidadores.
+      <br><br>
+      Abaixo, está disponível uma ferramenta externa de triagem, disponibilizada pela ONG Instituto Incluir. A ferramenta é voltada para cuidadores ou professores, com o intuito de
+      identificar sinais precoces de autismo em crianças entre 16 e 30 meses de idade, por meio de um conjunto de perguntas que abordam comportamentos típicos e atípicos.
+    </p>
 
-    <form [formGroup]="form" (ngSubmit)="start()" class="space-y-6">
-      <div>
-        <label class="block text-sm text-zinc-300 mb-1">Nome da criança</label>
-        <input
-          formControlName="nome"
-          class="w-full rounded-xl bg-slate-950/60 border border-white/10 px-3 py-2"
-        />
-      </div>
+    <p class="text-sm text-white mb-3">
+      Disponibilizado por: Instituto Incluir - <a href="https://incluir.ong.br" class="text-blue-200" target="_blank">incluir.ong.br</a>
+    </p>
 
-      <div>
-        <label class="block text-sm text-zinc-300 mb-1">Idade (meses)</label>
-        <input
-          type="number"
-          formControlName="idadeMeses"
-          class="w-full rounded-xl bg-slate-950/60 border border-white/10 px-3 py-2"
-        />
-      </div>
-
-      <button
-        type="submit"
-        class="w-full rounded-xl bg-blue-600 hover:bg-blue-500 text-white px-5 py-2.5"
-      >
-        Iniciar Triagem
-      </button>
-    </form>
+    <button (click)="scrollToQuestionnaire()" class="w-full rounded-xl bg-emerald-500 hover:bg-blue-700 text-white px-5 py-2.5">
+      Iniciar a Triagem
+    </button>
   </div>
 </section>
 
-<iframe 
-  src="https://incluir.ong.br/autismo/triagem-e-diagnostico/ferramenta-de-triagem" 
-  width="100%" 
-  height="1000px" 
-  frameborder="0">
-  O seu navegador não suporta iframes.
-</iframe>
+<style>
+    section {
+      margin-bottom: 150px;
+    }
+</style>
+
+<div class="grid place-items-center">
+  <iframe id="questionnaireIframe"
+    src="https://incluir.ong.br/autismo/triagem-e-diagnostico/ferramenta-de-triagem" 
+    width="100%" 
+    height="1000px" 
+    frameborder="0">
+    O seu navegador não suporta iframes.
+  </iframe>
+</div>
+
 
 <ng-template #perguntas>
-  <section class="min-h-screen grid place-items-center px-4 py-10">
-    <div
-      class="w-full max-w-2xl bg-slate-900/70 border border-white/10 rounded-2xl p-8 shadow-lg text-white text-center"
-    >
-      <h2 class="text-2xl font-semibold mb-4">
-        Pergunta {{ currentIndex() + 1 }} de {{ questions.length }}
-      </h2>
-
-      <p class="text-lg text-zinc-200 mb-4">
-        {{ currentQuestion.text }}
-      </p>
-      <p *ngIf="answers()[currentQuestion.id] !== undefined" class="mb-8 text-sm">
-        Resposta atual:
-        <span
-          [ngClass]="{
-            'text-green-400 font-semibold': answers()[currentQuestion.id] === true,
-            'text-red-400 font-semibold': answers()[currentQuestion.id] === false
-          }"
-        >
-          {{ answers()[currentQuestion.id] ? 'Sim' : 'Não' }}
-        </span>
-      </p>
-
-      <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
-        <!-- Voltar -->
-        <button
-          (click)="prev()"
-          [disabled]="currentIndex() === 0"
-          class="py-2 rounded-xl bg-zinc-700 hover:bg-zinc-600 disabled:opacity-40"
-        >
-          Voltar
-        </button>
-
-        <!-- Não -->
-        <button
-          (click)="answer(false)"
-          [class.bg-red-700]="answers()[currentQuestion.id] === false"
-          class="py-2 rounded-xl bg-red-600 hover:bg-red-500 transition-colors"
-        >
-          Não
-        </button>
-
-        <!-- Sim -->
-        <button
-          (click)="answer(true)"
-          [class.bg-green-700]="answers()[currentQuestion.id] === true"
-          class="py-2 rounded-xl bg-green-600 hover:bg-green-500 transition-colors"
-        >
-          Sim
-        </button>
-
-        <!-- Próximo -->
-        <button
-          (click)="next()"
-          [disabled]="!hasAnsweredCurrent() || currentIndex() === questions.length - 1"
-          class="py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white disabled:opacity-40"
-        >
-          Próximo
-        </button>
-      </div>
-    </div>
-  </section>
 </ng-template>
