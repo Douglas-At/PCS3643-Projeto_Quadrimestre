@@ -1,13 +1,48 @@
+## Instalação do Ambiente
 
-Para instalar as dependencias do ambiente virtual python é necessário primeiro realziar ( pip install "psycopg[binary]" ) e depois ( pip install -r requirements.txt ). Deve se ter o Node.js 22 instalado.
+Para instalar as dependências do ambiente virtual Python, execute:
 
-Para rodar o site deve-se executar ( python app.py ) e dentro da paste site-tea executar ( ng-serve ). O servidor estará em (http://localhost:4200/)
+```bash
+pip install "psycopg[binary]"
+pip install -r requirements.txt
+```
 
-É também necessário ter acesso ao banco de dados com o arquivo ( .env ), cuja estrutura é: 
-(
+Certifique-se também de ter o **Node.js 22** instalado.
+
+---
+
+## Executando o Projeto
+
+Para rodar o backend (Python):
+
+```bash
+python app.py
+```
+
+Para rodar o frontend Angular, entre na pasta `site-tea` e execute:
+
+```bash
+ng serve
+```
+
+O servidor estará disponível em:
+
+```
+http://localhost:4200/
+```
+
+---
+
+## Configuração do Banco de Dados
+
+É necessário possuir um arquivo `.env` com a seguinte estrutura:
+
+```
 DB_HOST=ip
 DB_PORT=port
 DB_USER=user
 DB_PASSWORD=psswd
-DB_NAME=name )
-(dados não reais)
+DB_NAME=name
+```
+
+*(valores fictícios acima, substitua pelos reais)*
