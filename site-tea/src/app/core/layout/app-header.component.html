@@ -32,6 +32,7 @@
 
       <!-- Usuário autenticado -->
       <ng-container *ngIf="auth.isAuthenticated()">
+<<<<<<< HEAD
 
         <a routerLink="/dashboard" routerLinkActive="text-white" class="hover:text-white">
           Dashboard
@@ -51,6 +52,27 @@
         </ng-container>
 
         <!-- Logout -->
+=======
+        <a
+          (click)="open.set(false)"
+          routerLink="/tela-professor"
+          class="py-2 hover:text-white"
+          >Lista Alunos</a
+        >
+        <a
+          routerLink="/m-chat"
+          routerLinkActive="text-white"
+          class="hover:text-white"
+        >
+          M-Chat
+        </a>
+        <a
+          routerLink="/paineis"
+          routerLinkActive="text-white"
+          class="hover:text-white"
+          >Painéis</a
+        >
+>>>>>>> ee0e5767e8ae2554603c8008108f404bb04c46da
         <button
           type="button"
           (click)="logout()"

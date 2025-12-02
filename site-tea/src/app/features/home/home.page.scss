@@ -173,120 +173,41 @@ h3 {
   border-color: #333 transparent transparent transparent; /* Darker color for visibility */
 }
 
-.flowchart-split-arrows {
-  display: flex;
-  justify-content: space-between; /* Pushes the two child arrows to the ends */
-  width: 300px; /* Match step width initially */
-  position: relative;
-  margin-top: 10px;
-  margin-bottom: 10px;
-}
-
-/* Vertical line from previous step to horizontal split */
-.flowchart-split-arrows::before {
-  content: "";
-  position: absolute;
-  width: 2px;
-  height: 30px; /* Length of the vertical line */
-  background-color: #333; /* Darker color for visibility */
-  top: -30px; /* Position above the split-arrows div */
-  left: 50%;
-  transform: translateX(-50%);
-}
-
-/* Horizontal line of the split */
-.flowchart-split-arrows::after {
-  content: "";
-  position: absolute;
-  width: 100%;
-  height: 2px;
-  background-color: #333; /* Darker color for visibility */
-  top: 0; /* Aligns with the top of the .flowchart-split-arrows div */
-  left: 0;
-}
-
-.flowchart-split-arrows .flowchart-arrow {
-  height: 30px; /* Vertical drop length for left/right branches */
-  width: 2px;
-  background-color: #333; /* Darker color for visibility */
-  position: relative; /* For arrowhead */
-  top: 0; /* Position below the horizontal line */
-}
-
-/* Arrowhead for the left/right arrows */
-.flowchart-split-arrows .flowchart-arrow::after {
-  content: "";
-  position: absolute;
-  top: 100%;
-  left: 50%;
-  transform: translateX(-50%);
-  border-width: 8px;
-  border-style: solid;
-  border-color: #333 transparent transparent transparent; /* Darker color for visibility */
-}
-
-.flowchart-bottom-row {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  gap: 20px;
-  width: 100%;
-  max-width: 650px; /* Control max width for better appearance */
-  flex-wrap: wrap; /* Allow wrapping on smaller screens */
-}
-
-.flowchart-bottom-row .flowchart-step {
-  flex: 1; /* Allow steps to grow and shrink */
-  min-width: 280px; /* Minimum width before wrapping */
-  width: auto; /* Allow steps to grow naturally with flex */
-}
-
 /* Media query for responsiveness */
 @media (max-width: 768px) {
-  .flowchart-bottom-row {
+  .flowchart-container {
     flex-direction: column;
     align-items: center;
   }
 
-  .flowchart-bottom-row .flowchart-step {
+  .flowchart-arrow {
+    height: 30px;
+    width: 2px;
+    position: static;
+    margin-bottom: 20px;
+  }
+
+  .flowchart-arrow::after {
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border-color: #333 transparent transparent transparent;
+  }
+
+  .flowchart-step {
     min-width: unset;
     width: 100%;
-  }
-
-  .flowchart-split-arrows {
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    height: auto;
-  }
-
-  .flowchart-split-arrows::before {
-    display: none; /* Hide vertical line to horizontal on small screens */
-  }
-
-  .flowchart-split-arrows::after {
-    display: none; /* Hide horizontal line on small screens */
-  }
-
-  .flowchart-split-arrows .flowchart-arrow {
-    height: 30px; /* Restore full height */
-    width: 2px;
-    position: static; /* Reset positioning */
-    margin-bottom: 20px; /* Space between vertical arrows */
-  }
-
-  .flowchart-split-arrows .flowchart-arrow.left-arrow,
-  .flowchart-split-arrows .flowchart-arrow.right-arrow {
-    left: auto;
-    right: auto;
-  }
-
-  .flowchart-split-arrows .flowchart-arrow.left-arrow::after {
-    top: 100%;
-    transform: translateX(-50%);
   }
 }
 
 .caixa.orange-box h3 {
   color: #000; /* Ensure heading text inside orange box is black */
+}
+
+.fontes-section {
+  background-color: #f0f0f0;
+  color: #000000;
+  padding: 20px;
+  margin-top: 20px;
+  border-radius: 8px;
 }
