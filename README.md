@@ -46,3 +46,13 @@ DB_NAME=name
 ```
 
 *(valores fictícios acima, substitua pelos reais)*
+
+---------------
+
+## Documenração
+
+A documentação do projeto foi feita de forma incremental, mostrando todo o trajeto do desenvolvimento. 
+
+Disponível em: https://docs.google.com/document/u/1/d/e/2PACX-1vRdgK5hck4OQHMVI6ZJjRWbFnBAxmfSqE5C-SSJnCrmeFa1Z-Y_Id0Oh8a4ObSvrvexoxfHkkLgOK6C/pub
+
+
