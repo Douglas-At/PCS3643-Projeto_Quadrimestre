@@ -13,28 +13,13 @@
       >NOR<span class="text-blue-700">TEA</span>R</a
     >
 
-    <!-- Botão mobile -->
-    <button
-      class="md:hidden p-2 rounded-lg border border-white/10 text-zinc-200 hover:bg-white/5 focus:outline-none focus:ring-2 focus:ring-blue-500"
-      (click)="open.set(!open())"
-      [attr.aria-expanded]="open()"
-      aria-label="Abrir menu"
-    >
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-        <path
-          d="M4 7h16M4 12h16M4 17h16"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-        />
-      </svg>
-    </button>
-
-    <!-- Menu desktop -->
     <nav class="hidden md:flex gap-6 text-sm text-zinc-300 items-center">
-      <a routerLink="/" routerLinkActive="text-white" class="hover:text-white"
-        >Início</a
-      >
+      <!-- Link sempre visível -->
+      <a routerLink="/" routerLinkActive="text-white" class="hover:text-white">
+        Início
+      </a>
+
+      <!-- Somente deslogado -->
       <ng-container *ngIf="!auth.isAuthenticated()">
         <a
           routerLink="/m-chat"
@@ -43,15 +28,16 @@
         >
           M-Chat
         </a>
+        <a
+          routerLink="/login"
+          routerLinkActive="text-white"
+          class="hover:text-white"
+        >
+          Entrar
+        </a>
       </ng-container>
-      <a
-        routerLink="/dashboard"
-        routerLinkActive="text-white"
-        class="hover:text-white"
-      >
-        Dashboard
-      </a>
-      <!-- 🔐 Somente se logado -->
+
+      <!-- Usuário autenticado -->
       <ng-container *ngIf="auth.isAuthenticated()">
         <a
           (click)="open.set(false)"
@@ -80,67 +66,6 @@
           Sair
         </button>
       </ng-container>
-
-      <!-- 🔓 Quando deslogado -->
-      <ng-container *ngIf="!auth.isAuthenticated()">
-        <a
-          routerLink="/login"
-          routerLinkActive="text-white"
-          class="hover:text-white"
-        >
-          Entrar
-        </a>
-      </ng-container>
-    </nav>
-  </div>
-
-  <!-- Menu mobile -->
-  <div
-    *ngIf="open()"
-    class="md:hidden border-t border-white/10 bg-slate-900/95"
-  >
-    <nav class="mx-auto max-w-6xl px-4 py-3 flex flex-col gap-2 text-zinc-200">
-      <a (click)="open.set(false)" routerLink="/" class="py-2 hover:text-white"
-        >Início</a
-      >
-
-      <!-- 🔐 Somente logado -->
-      <ng-container *ngIf="auth.isAuthenticated(); else loginLink">
-        <a
-          (click)="open.set(false)"
-          routerLink="/paineis"
-          class="py-2 hover:text-white"
-          >Painéis</a
-        >
-        <a
-          (click)="open.set(false)"
-          routerLink="/rastreamento"
-          class="py-2 hover:text-white"
-          >Rastreamento</a
-        >
-        <a
-          (click)="open.set(false)"
-          routerLink="/recursos"
-          class="py-2 hover:text-white"
-          >Recursos</a
-        >
-        <button
-          (click)="logout(); open.set(false)"
-          class="py-2 text-left text-red-400 hover:text-red-300"
-        >
-          Sair
-        </button>
-      </ng-container>
-
-      <!-- 🔓 Deslogado -->
-      <ng-template #loginLink>
-        <a
-          (click)="open.set(false)"
-          routerLink="/login"
-          class="py-2 hover:text-white"
-          >Entrar</a
-        >
-      </ng-template>
     </nav>
   </div>
 </header>

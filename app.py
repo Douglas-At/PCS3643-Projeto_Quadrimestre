@@ -27,6 +27,9 @@ def create_app():
     from routes.usuarios import usuarios_bp
     app.register_blueprint(usuarios_bp, url_prefix='/api/usuarios')
 
+    from routes.dashboard import dashboard_bp
+    app.register_blueprint(dashboard_bp, url_prefix='/api/dashboard')
+
     @app.route('/')
     def index():
         return {"mensagem": "API sprint 1"}
