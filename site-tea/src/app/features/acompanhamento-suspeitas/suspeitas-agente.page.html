@@ -1,0 +1,36 @@
+<div class="kanban-container">
+
+  <div class="kanban-col">
+    <h3>Abertas</h3>
+
+    <div class="card" *ngFor="let s of abertas()">
+      <p class="titulo">{{ s.descricao }}</p>
+      <p class="sub">Aluno: {{ s.aluno_nome }}</p>
+      <p class="sub">Professor: {{ s.professor_nome }}</p>
+      <p class="data">{{ s.data_registro | date:'dd/MM/yyyy' }}</p>
+    </div>
+  </div>
+
+  <div class="kanban-col">
+    <h3>Em Andamento</h3>
+
+    <div class="card" *ngFor="let s of andamento()">
+      <p class="titulo">{{ s.descricao }}</p>
+      <p class="sub">Aluno: {{ s.aluno_nome }}</p>
+      <p class="sub">Professor: {{ s.professor_nome }}</p>
+      <p class="data">{{ s.data_registro | date:'dd/MM/yyyy' }}</p>
+    </div>
+  </div>
+
+  <div class="kanban-col">
+    <h3>Concluídas</h3>
+
+    <div class="card" *ngFor="let s of concluidas()">
+      <p class="titulo">{{ s.descricao }}</p>
+      <p class="sub">Aluno: {{ s.aluno_nome }}</p>
+      <p class="sub">Professor: {{ s.professor_nome }}</p>
+      <p class="data">{{ s.data_registro | date:'dd/MM/yyyy' }}</p>
+    </div>
+  </div>
+
+</div>

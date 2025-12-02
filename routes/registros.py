@@ -10,7 +10,7 @@ def listar_registros():
     registros = db_session.query(RegistroSuspeita).all()
     return jsonify([serialize(r) for r in registros])
 
-@registros_bp.route('/', methods=['POST'])
+@registros_bp.route('', methods=['POST'])
 def criar_registro():
     dados = request.json
     print("Dados recebidos:", dados)

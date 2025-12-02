@@ -47,11 +47,13 @@
               <td class="px-4 py-2">{{ aluno.nome }}</td>
               <td class="px-4 py-2">{{ aluno.data_nascimento || '—' }}</td>
               <td class="px-4 py-2 text-center">
-                <input
-                  type="checkbox"
-                  class="w-5 h-5 accent-blue-500"
-                  (change)="registrarSuspeita(aluno.id, $event)"
-                />
+              <input
+                type="checkbox"
+                class="w-5 h-5 accent-blue-500"
+                [checked]="aluno.ja_registrado"
+                [disabled]="aluno.ja_registrado"
+                (change)="registrarSuspeita(aluno.id, $event)"
+              />
               </td>
             </tr>
           </tbody>

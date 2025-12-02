@@ -15,9 +15,13 @@
 
     <nav class="hidden md:flex gap-6 text-sm text-zinc-300 items-center">
 
-      <!-- Link sempre visível -->
+      <!-- Sempre visíveis -->
       <a routerLink="/" routerLinkActive="text-white" class="hover:text-white">
         Início
+      </a>
+
+      <a routerLink="/dashboard" routerLinkActive="text-white" class="hover:text-white">
+        Dashboard
       </a>
 
       <!-- Somente deslogado -->
@@ -32,47 +36,20 @@
 
       <!-- Usuário autenticado -->
       <ng-container *ngIf="auth.isAuthenticated()">
-<<<<<<< HEAD
-
-        <a routerLink="/dashboard" routerLinkActive="text-white" class="hover:text-white">
-          Dashboard
-        </a>
 
         <!-- Professor -->
-        <ng-container *ngIf="auth.user?.tipo_usuario === 'professor'">
+        <ng-container *ngIf="auth.user()?.tipo_usuario === 'professor'">
           <a routerLink="/tela-professor" class="py-2 hover:text-white">Lista Alunos</a>
           <a routerLink="/m-chat/professor" class="hover:text-white">M-Chat</a>
         </ng-container>
 
         <!-- Agente Público -->
-        <ng-container *ngIf="auth.user?.tipo_usuario === 'agente_publico'">
+        <ng-container *ngIf="auth.user()?.tipo_usuario === 'agente_publico'">
           <a routerLink="/acompanhamento-suspeitas" class="hover:text-white">
             Acompanhamento Suspeitas
           </a>
         </ng-container>
 
-        <!-- Logout -->
-=======
-        <a
-          (click)="open.set(false)"
-          routerLink="/tela-professor"
-          class="py-2 hover:text-white"
-          >Lista Alunos</a
-        >
-        <a
-          routerLink="/m-chat"
-          routerLinkActive="text-white"
-          class="hover:text-white"
-        >
-          M-Chat
-        </a>
-        <a
-          routerLink="/paineis"
-          routerLinkActive="text-white"
-          class="hover:text-white"
-          >Painéis</a
-        >
->>>>>>> ee0e5767e8ae2554603c8008108f404bb04c46da
         <button
           type="button"
           (click)="logout()"
