@@ -2,7 +2,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { IbgeDataRecord } from '../models/ibge-data.model.ts';
+import { IbgeDataRecord } from '../models/ibge-data.model';
 
 @Injectable({
   providedIn: 'root',
