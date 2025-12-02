@@ -3,43 +3,43 @@ import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 
 @Component({
-  selector: 'app-acompanhamento-suspeitas',
+  selector: 'app-suspeitas-agente',
   standalone: true,
   imports: [CommonModule],
-  templateUrl: './suspeitas-agente.page.html'
+  templateUrl: './suspeitas-agente.page.html',
 })
-export class AcompanhamentoSuspeitasPage implements OnInit {
+export class SuspeitasAgentePage implements OnInit {
+  
   private API_URL = 'http://localhost:5000/api';
-
-  usuario: any;
-
-  // Kanban signals
-  abertas = signal<any[]>([]);
-  andamento = signal<any[]>([]);
-  concluidas = signal<any[]>([]);
+  registros = signal<any[]>([]);
 
   constructor(private http: HttpClient) {}
 
   ngOnInit() {
-    const userStr = localStorage.getItem('usuario');
-    if (userStr) {
-      this.usuario = JSON.parse(userStr);
-      this.carregarSuspeitas();
-    }
+    this.carregarRegistros();
   }
 
-  carregarSuspeitas() {
-    if (!this.usuario?.id) return;
+  alterarStatus(registroId: number, event: Event) {
+  const novoStatus = (event.target as HTMLSelectElement).value;
 
+  this.http
+    .put(`${this.API_URL}/registros/${registroId}/status`, { status: novoStatus })
+    .subscribe({
+      next: () => {
+        // Atualiza a lista após mudança
+        this.carregarRegistros();
+      },
+      error: (err) => console.error("Erro ao atualizar status", err)
+    });
+}
+
+
+  carregarRegistros() {
     this.http
-      .get<any[]>(`${this.API_URL}/agentes/${this.usuario.id}/suspeitas`)
+      .get<any[]>(`${this.API_URL}/registros/sem-agente`)
       .subscribe({
-        next: (dados) => {
-          this.abertas.set(dados.filter(s => s.status === 'aberto'));
-          this.andamento.set(dados.filter(s => s.status === 'em_andamento'));
-          this.concluidas.set(dados.filter(s => s.status === 'concluido'));
-        },
-        error: (err) => console.error('Erro ao carregar suspeitas', err),
+        next: (dados) => this.registros.set(dados),
+        error: (err) => console.error("Erro ao carregar registros", err)
       });
   }
 }

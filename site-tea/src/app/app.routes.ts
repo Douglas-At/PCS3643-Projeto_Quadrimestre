@@ -36,13 +36,11 @@ export const routes: Routes = [
       import('./features/paineis/paineis.page').then((m) => m.PaineisPage),
     title: 'Painéis',
   },
-  {
-    path: 'acompanhamento-suspeitas',
-    canMatch: [authGuard],
-    loadComponent: () =>
-      import('./features/acompanhamento-suspeitas/suspeitas-agente.page')
-        .then(m => m.AcompanhamentoSuspeitasPage)
-  },
+{
+  path: 'acompanhamento-suspeitas',
+  loadComponent: () => import('./features/acompanhamento-suspeitas/suspeitas-agente.page')
+      .then(m => m.SuspeitasAgentePage)
+},
   {
     path: 'rastreamento',
     canMatch: [authGuard],

@@ -38,19 +38,25 @@ def listar_alunos_do_professor_na_escola(professor_id, escola_id):
 
     resposta = []
     for aluno in alunos:
-        ja_registrado = db_session.query(RegistroSuspeita).filter_by(
+
+        registro = db_session.query(RegistroSuspeita).filter_by(
             aluno_id=aluno.id,
             professor_id=professor.id  
-        ).first() is not None
+        ).first()
+
+        ja_registrado = registro is not None
+        status = registro.status if registro else None
 
         resposta.append({
             "id": aluno.id,
             "nome": aluno.nome,
             "data_nascimento": aluno.data_nascimento,
-            "ja_registrado": ja_registrado
+            "ja_registrado": ja_registrado,
+            "status": status
         })
 
     return jsonify(resposta)
+
 
 
 @professores_bp.route('/usuario/<int:usuario_id>')

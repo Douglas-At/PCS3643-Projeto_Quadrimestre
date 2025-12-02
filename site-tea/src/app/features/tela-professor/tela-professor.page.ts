@@ -18,6 +18,12 @@ export class TelaProfessorPage implements OnInit {
   escolas = signal<any[]>([]);
   alunos = signal<any[]>([]);
   escolaSelecionada = signal<number | null>(null);
+  statusMap: any = {
+  "aberto": "Aberto",
+  "em_andamento": "Em Andamento",
+  "concluido": "Concluído"
+};
+
 
   constructor(private http: HttpClient) {}
 

@@ -35,6 +35,7 @@
               <th class="px-4 py-2">#</th>
               <th class="px-4 py-2">Nome</th>
               <th class="px-4 py-2">Data de Nascimento</th>
+              <th class="px-4 py-2 text-center">Status</th> <!-- NOVO -->
               <th class="px-4 py-2 text-center">Registrar Suspeita</th>
             </tr>
           </thead>
@@ -46,6 +47,14 @@
               <td class="px-4 py-2 text-zinc-400">{{ i + 1 }}</td>
               <td class="px-4 py-2">{{ aluno.nome }}</td>
               <td class="px-4 py-2">{{ aluno.data_nascimento || '—' }}</td>
+              <td class="px-4 py-2 text-center">
+                  <span *ngIf="aluno.ja_registrado; else semRegistro">
+                      {{ statusMap[aluno.status] }}
+                  </span>
+                  <ng-template #semRegistro>
+                    —
+                  </ng-template>
+              </td>
               <td class="px-4 py-2 text-center">
               <input
                 type="checkbox"

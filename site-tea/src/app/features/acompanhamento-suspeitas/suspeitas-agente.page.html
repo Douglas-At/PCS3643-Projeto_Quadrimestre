@@ -1,36 +1,63 @@
-<div class="kanban-container">
+<section class="min-h-[70vh] grid place-items-center">
+  <div
+    class="w-full max-w-5xl bg-slate-800/70 border border-white/10 rounded-2xl p-6 shadow-lg text-white"
+  >
+    <h1 class="text-2xl font-bold mb-4">
+      Registros sem agente público responsável
+    </h1>
 
-  <div class="kanban-col">
-    <h3>Abertas</h3>
+    <div *ngIf="registros().length === 0" class="text-zinc-400 text-sm">
+      Nenhum registro pendente para agentes.
+    </div>
 
-    <div class="card" *ngFor="let s of abertas()">
-      <p class="titulo">{{ s.descricao }}</p>
-      <p class="sub">Aluno: {{ s.aluno_nome }}</p>
-      <p class="sub">Professor: {{ s.professor_nome }}</p>
-      <p class="data">{{ s.data_registro | date:'dd/MM/yyyy' }}</p>
+    <div *ngIf="registros().length > 0" class="overflow-x-auto rounded-lg border border-white/10">
+      <table class="min-w-full text-left border-collapse">
+        <thead class="bg-slate-900/80">
+          <tr class="text-sm text-zinc-300 border-b border-white/10">
+            <th class="px-4 py-2">#</th>
+            <th class="px-4 py-2">Aluno</th>
+            <th class="px-4 py-2">Endereço</th>
+            <th class="px-4 py-2">Responsável</th>
+            <th class="px-4 py-2">Descrição</th>
+            <th class="px-4 py-2">Status</th>
+            <th class="px-4 py-2">Data</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr
+            *ngFor="let r of registros(); index as i"
+            class="border-b border-white/5 hover:bg-slate-900/50"
+          >
+            <td class="px-4 py-2 text-zinc-400">{{ i + 1 }}</td>
+
+            <td class="px-4 py-2">{{ r.aluno.nome }}</td>
+
+            <td class="px-4 py-2">{{ r.aluno.endereco }}</td>
+
+            <td class="px-4 py-2">{{ r.aluno.nome_pai || '—' }}</td>
+
+            <td class="px-4 py-2">{{ r.descricao }}</td>
+
+            <td class="px-4 py-2">
+              <select
+                class="bg-slate-900 border border-white/20 rounded-lg px-2 py-1"
+                [value]="r.status"
+                (change)="alterarStatus(r.id, $event)"
+              >
+                <option value="aberto">Aberto</option>
+                <option value="em_andamento">Em andamento</option>
+                <option value="concluido">Concluído</option>
+              </select>
+            </td>
+
+            <td class="px-4 py-2">
+              {{ r.data_registro | date:'dd/MM/yyyy HH:mm' }}
+            </td>
+          </tr>
+        </tbody>
+
+      </table>
     </div>
   </div>
-
-  <div class="kanban-col">
-    <h3>Em Andamento</h3>
-
-    <div class="card" *ngFor="let s of andamento()">
-      <p class="titulo">{{ s.descricao }}</p>
-      <p class="sub">Aluno: {{ s.aluno_nome }}</p>
-      <p class="sub">Professor: {{ s.professor_nome }}</p>
-      <p class="data">{{ s.data_registro | date:'dd/MM/yyyy' }}</p>
-    </div>
-  </div>
-
-  <div class="kanban-col">
-    <h3>Concluídas</h3>
-
-    <div class="card" *ngFor="let s of concluidas()">
-      <p class="titulo">{{ s.descricao }}</p>
-      <p class="sub">Aluno: {{ s.aluno_nome }}</p>
-      <p class="sub">Professor: {{ s.professor_nome }}</p>
-      <p class="data">{{ s.data_registro | date:'dd/MM/yyyy' }}</p>
-    </div>
-  </div>
-
-</div>
+</section>
