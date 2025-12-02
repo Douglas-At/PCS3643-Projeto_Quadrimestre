@@ -9,13 +9,12 @@
   class="sticky top-0 z-50 bg-slate-900/80 backdrop-blur border-b border-white/10"
 >
   <div class="mx-auto max-w-6xl px-4 h-14 flex items-center justify-between">
-    <a routerLink="/" class="font-semibold text-white tracking-tight">
-      norTEAr
-    </a>
+    <a routerLink="/" class="font-bold text-3xl text-white tracking-tight"
+      >NOR<span class="text-blue-700">TEA</span>R</a
+    >
 
     <nav class="hidden md:flex gap-6 text-sm text-zinc-300 items-center">
-
-      <!-- Sempre visíveis -->
+      <!-- Link sempre visível -->
       <a routerLink="/" routerLinkActive="text-white" class="hover:text-white">
         Início
       </a>
@@ -26,10 +25,18 @@
 
       <!-- Somente deslogado -->
       <ng-container *ngIf="!auth.isAuthenticated()">
-        <a routerLink="/m-chat" routerLinkActive="text-white" class="hover:text-white">
+        <a
+          routerLink="/m-chat"
+          routerLinkActive="text-white"
+          class="hover:text-white"
+        >
           M-Chat
         </a>
-        <a routerLink="/login" routerLinkActive="text-white" class="hover:text-white">
+        <a
+          routerLink="/login"
+          routerLinkActive="text-white"
+          class="hover:text-white"
+        >
           Entrar
         </a>
       </ng-container>
@@ -57,9 +64,7 @@
         >
           Sair
         </button>
-
       </ng-container>
-
     </nav>
   </div>
 </header>
