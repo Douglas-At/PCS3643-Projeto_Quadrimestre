@@ -19,7 +19,7 @@
 }
 
 .roxo {
-  background-color: #4b2e83;
+  background-color: pink;
 }
 
 .imagem-descricao-grande {
@@ -75,7 +75,7 @@
 }
 
 .amarelo {
-  background-color: #4b2e83;
+  background-color: pink;
   color: #000; /* Text black */
 }
 
@@ -106,16 +106,18 @@ h3 {
 }
 
 .caixa {
-  background: #a88888;
+  background: transparent;
   color: #000;
   padding: 20px;
   border-radius: 10px;
+  border: 2px solid black;
 }
 
 /* Styles for the orange boxes */
 .caixa.orange-box {
-  background-color: #a88888; /* Match .caixa color */
+  background-color: transparent; /* Match .caixa color */
   color: #000; /* Black text for better contrast on a lighter background */
+  border: 2px solid black;
 }
 
 /* Flowchart Styles for section cinza */

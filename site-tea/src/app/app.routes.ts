@@ -37,6 +37,13 @@ export const routes: Routes = [
     title: 'Painéis',
   },
   {
+    path: 'acompanhamento-suspeitas',
+    canMatch: [authGuard],
+    loadComponent: () =>
+      import('./features/acompanhamento-suspeitas/suspeitas-agente.page')
+        .then(m => m.AcompanhamentoSuspeitasPage)
+  },
+  {
     path: 'rastreamento',
     canMatch: [authGuard],
     loadComponent: () =>

@@ -13,6 +13,7 @@ export class TelaProfessorPage implements OnInit {
   private API_URL = 'http://localhost:5000/api';
   usuario: any;
   professorId: number | null = null;
+  professorNumeroId: number | null = null;
 
   escolas = signal<any[]>([]);
   alunos = signal<any[]>([]);
@@ -32,21 +33,23 @@ export class TelaProfessorPage implements OnInit {
     this.http.get<any>(`${this.API_URL}/professores/usuario/${this.usuario.id}`)
       .subscribe({
         next: (dados) => {
-          this.professorId = dados.id;
+          this.professorId = dados.usuario_id;
+          this.professorNumeroId = dados.id;
           this.carregarEscolas();
         },
         error: (err) => console.error("Erro ao carregar professor", err)
       });
   }
 
-  carregarEscolas() {
-    this.http
-      .get<any[]>(`${this.API_URL}/professores/${this.professorId}/escolas`)
-      .subscribe({
-        next: (dados) => this.escolas.set(dados),
-        error: (err) => console.error('Erro ao carregar escolas', err),
-      });
-  }
+    carregarEscolas() {
+      this.http
+        .get<any[]>(`${this.API_URL}/professores/${this.professorId}/escolas`)
+        .subscribe({
+          next: (dados) => this.escolas.set(dados),
+          error: (err) => console.error('Erro ao carregar escolas', err),
+        });
+    }
+
 
   selecionarEscola(event: Event) {
     const select = event.target as HTMLSelectElement;
@@ -55,7 +58,8 @@ export class TelaProfessorPage implements OnInit {
     this.escolaSelecionada.set(escolaId);
 
     this.http
-      .get<any[]>(`${this.API_URL}/escolas/${escolaId}/alunos`)
+      .get<any[]>(`${this.API_URL}/professores/${this.professorId}/escolas/${escolaId}/alunos`
+      )
       .subscribe({
         next: (dados) => this.alunos.set(dados),
         error: (err) => console.error("Erro ao carregar alunos", err)
@@ -68,7 +72,7 @@ export class TelaProfessorPage implements OnInit {
     if (checked) {
       const payload = {
         aluno_id: alunoId,
-        professor_id: this.professorId,
+        professor_id: this.professorNumeroId,
         descricao: "Suspeita registrada pelo professor"
       };
 

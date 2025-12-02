@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify, request
 from database import db_session
-from models import Usuario, Professor, Escola,Aluno
+from models import Usuario, Professor, Escola,Aluno,RegistroSuspeita
 from utils import serialize
 from werkzeug.security import generate_password_hash
 
@@ -35,10 +35,23 @@ def listar_alunos_do_professor_na_escola(professor_id, escola_id):
         return jsonify({"erro": "Professor não vinculado a esta escola"}), 404
 
     alunos = db_session.query(Aluno).filter_by(escola_id=escola_id).all()
-    return jsonify([
-        {"id": aluno.id, "nome": aluno.nome, "data_nascimento": aluno.data_nascimento}
-        for aluno in alunos
-    ])
+
+    resposta = []
+    for aluno in alunos:
+        ja_registrado = db_session.query(RegistroSuspeita).filter_by(
+            aluno_id=aluno.id,
+            professor_id=professor.id  
+        ).first() is not None
+
+        resposta.append({
+            "id": aluno.id,
+            "nome": aluno.nome,
+            "data_nascimento": aluno.data_nascimento,
+            "ja_registrado": ja_registrado
+        })
+
+    return jsonify(resposta)
+
 
 @professores_bp.route('/usuario/<int:usuario_id>')
 def get_professor_por_usuario(usuario_id):
@@ -49,6 +62,7 @@ def get_professor_por_usuario(usuario_id):
 
     return jsonify({
         "id": professor.id,
+        "usuario_id": professor.usuario_id,  
         "escola_id": professor.escola_id,
         "disciplina": professor.disciplina
     })

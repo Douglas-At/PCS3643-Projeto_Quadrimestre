@@ -41,9 +41,14 @@ export class LoginPage {
     this.error.set(null);
 
     this.auth.login(email, password).subscribe({
-      next: () => {
-        this.loading.set(false);
-        this.router.navigate(['/tela-professor']); // redireciona após login
+      next: (user) => {
+        const tipo = user.tipo_usuario;
+
+        if (tipo === 'agente_publico') {
+          this.router.navigate(['/acompanhamento-suspeitas']);
+        } else if (tipo === 'professor') {
+          this.router.navigate(['/tela-professor']);
+        } 
       },
       error: (err) => {
         this.loading.set(false);
@@ -51,4 +56,5 @@ export class LoginPage {
       },
     });
   }
+
 }
