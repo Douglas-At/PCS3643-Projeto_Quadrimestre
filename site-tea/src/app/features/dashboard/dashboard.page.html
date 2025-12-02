@@ -1,0 +1,212 @@
+<div class="min-h-screen p-4 md:p-8 bg-slate-950 text-slate-200">
+  <!-- HEADER -->
+  <header class="flex flex-col md:flex-row md:justify-between gap-4 mb-6">
+    <div>
+      <h1 class="text-xl font-semibold">Dashboard TEA - IBGE</h1>
+      <p class="text-slate-400 text-sm">
+        Visualização de dados por local, sexo e faixa etária (2022).
+      </p>
+    </div>
+
+    <!-- SELECTS PRINCIPAIS -->
+    <div class="flex flex-wrap gap-4">
+      <!-- Local -->
+      <label class="flex flex-col text-sm">
+        <span class="mb-1 text-slate-300">Local</span>
+        <select
+          class="bg-slate-900 border border-slate-700 rounded-full px-3 py-1.5"
+          [ngModel]="selectedLocal()"
+          (ngModelChange)="onLocalChange($event)"
+        >
+          <option *ngFor="let l of locaisDisponiveis()" [value]="l">
+            {{ l }}
+          </option>
+        </select>
+      </label>
+
+      <!-- Variável -->
+      <label class="flex flex-col text-sm">
+        <span class="mb-1 text-slate-300">Variável</span>
+        <select
+          class="bg-slate-900 border border-slate-700 rounded-full px-3 py-1.5"
+          [ngModel]="selectedVariavel()"
+          (ngModelChange)="onVariavelChange($event)"
+        >
+          <option value="todos">Todas</option>
+          <option *ngFor="let v of variaveisDisponiveis()" [value]="v">
+            {{ v }}
+          </option>
+        </select>
+      </label>
+    </div>
+  </header>
+
+  <!-- FILTROS AVANÇADOS -->
+  <section class="mb-6 space-y-4">
+    <!-- Medida -->
+    <div>
+      <h2 class="text-sm font-medium text-slate-300 mb-2">Medida</h2>
+      <div class="flex flex-wrap gap-2 text-xs">
+        <button (click)="setMedidaFilter('todas')"
+          class="px-3 py-1.5 rounded-full border"
+          [class.bg-cyan-500]="selectedMedida() === 'todas'"
+        >Todas</button>
+
+        <button (click)="setMedidaFilter('numero')"
+          class="px-3 py-1.5 rounded-full border"
+          [class.bg-cyan-500]="selectedMedida() === 'numero'"
+        >Nº de pessoas</button>
+
+        <button (click)="setMedidaFilter('percentual')"
+          class="px-3 py-1.5 rounded-full border"
+          [class.bg-cyan-500]="selectedMedida() === 'percentual'"
+        >Percentual</button>
+      </div>
+    </div>
+
+    <!-- Sexo -->
+    <div>
+      <h2 class="text-sm font-medium text-slate-300 mb-2">Sexo</h2>
+      <div class="flex flex-wrap gap-2 text-xs">
+        <button (click)="setSexoFilter('Total')"
+          class="px-3 py-1.5 rounded-full border"
+          [class.bg-emerald-500]="selectedSexo() === 'Total'"
+        >Total</button>
+
+        <button (click)="setSexoFilter('Homens')"
+          class="px-3 py-1.5 rounded-full border"
+          [class.bg-emerald-500]="selectedSexo() === 'Homens'"
+        >Homens</button>
+
+        <button (click)="setSexoFilter('Mulheres')"
+          class="px-3 py-1.5 rounded-full border"
+          [class.bg-emerald-500]="selectedSexo() === 'Mulheres'"
+        >Mulheres</button>
+      </div>
+    </div>
+
+    <!-- Idade -->
+    <div>
+      <h2 class="text-sm font-medium text-slate-300 mb-2">Idade</h2>
+
+      <div class="flex flex-wrap gap-4 items-center text-sm">
+        <label class="flex flex-col">
+          <span class="mb-1 text-slate-400">De</span>
+          <select
+            class="bg-slate-900 border border-slate-700 rounded-full px-3 py-1.5"
+            [ngModel]="selectedIdadeInicio()"
+            (ngModelChange)="onIdadeInicioChange($event)"
+          >
+            <option [ngValue]="null">Qualquer</option>
+            <option *ngFor="let i of idadeInicioOptions" [ngValue]="i">
+              {{ i }} anos
+            </option>
+          </select>
+        </label>
+
+        <label class="flex flex-col">
+          <span class="mb-1 text-slate-400">Até</span>
+          <select
+            class="bg-slate-900 border border-slate-700 rounded-full px-3 py-1.5"
+            [ngModel]="selectedIdadeFim()"
+            (ngModelChange)="onIdadeFimChange($event)"
+          >
+            <option [ngValue]="null">Qualquer</option>
+            <option *ngFor="let f of idadeFimOptions" [ngValue]="f">
+              {{ f === 120 ? '100+ anos' : f + ' anos' }}
+            </option>
+          </select>
+        </label>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTEÚDO -->
+  <main *ngIf="!loading(); else loadingTpl" class="space-y-6">
+
+    <!-- CARDS -->
+    <section class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <article class="bg-slate-900 p-4 border border-slate-800 rounded-xl">
+        <h2 class="text-sm text-slate-400">Registros</h2>
+        <p class="text-2xl font-semibold text-cyan-300">
+          {{ totalRegistros() | number : '1.0-0' }}
+        </p>
+      </article>
+
+      <article class="bg-slate-900 p-4 border border-slate-800 rounded-xl">
+        <h2 class="text-sm text-slate-400">Soma dos valores</h2>
+        <p class="text-2xl font-semibold text-purple-300">
+          {{ somaValores() | number : '1.0-0' }}
+        </p>
+      </article>
+    </section>
+
+    <!-- RESUMO POR IDADE -->
+    <section class="bg-slate-900 p-4 border border-slate-800 rounded-xl">
+      <h2 class="text-lg font-medium mb-3">Resumo por faixa etária</h2>
+
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm text-left">
+          <thead>
+            <tr class="border-b border-slate-700 text-slate-400">
+              <th class="p-2">Faixa</th>
+              <th class="p-2">Valor</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr *ngFor="let r of resumoPorIdade()" class="border-b border-slate-800">
+              <td class="p-2">{{ r.idade }}</td>
+              <td class="p-2">{{ r.total | number : '1.0-0' }}</td>
+            </tr>
+
+            <tr *ngIf="!resumoPorIdade().length">
+              <td colspan="2" class="p-4 text-center text-slate-500">
+                Nenhum dado para este recorte.
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- TABELA DETALHADA -->
+    <section class="bg-slate-900 p-4 border border-slate-800 rounded-xl">
+      <h2 class="text-lg font-medium mb-3">Detalhamento</h2>
+
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm text-left">
+          <thead>
+            <tr class="border-b border-slate-700 text-slate-400">
+              <th class="p-2">Local</th>
+              <th class="p-2">Variável</th>
+              <th class="p-2">Sexo</th>
+              <th class="p-2">Idade</th>
+              <th class="p-2">Valor</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr *ngFor="let d of dadosFiltrados()" class="border-b border-slate-800">
+              <td class="p-2">{{ d.local }}</td>
+              <td class="p-2">{{ d.variavel }}</td>
+              <td class="p-2">{{ d.sexo }}</td>
+              <td class="p-2">{{ d.idade }}</td>
+              <td class="p-2">{{ d.valor ?? 0 | number : '1.0-0' }}</td>
+            </tr>
+
+            <tr *ngIf="!dadosFiltrados().length">
+              <td colspan="5" class="p-4 text-center text-slate-500">
+                Nenhum dado encontrado.
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <ng-template #loadingTpl>
+    <p class="text-center text-slate-400 mt-6">Carregando...</p>
+  </ng-template>
+</div>
